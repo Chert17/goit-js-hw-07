@@ -32,25 +32,21 @@ function onGalleryListClick(e) {
     return;
   }
 
-  const modal = basicLightbox.create(`
+  const instance = basicLightbox.create(`
       <img src="${e.target.dataset.source}" width="800" height="600">
   `);
-  modal.show();
+  instance.show();
 
-  window.addEventListener("keydown", closeEsc);
+  window.addEventListener("keydown", (e) => {
+    if (e.code === "Escape") {
+      instance.close(() => {
+        window.removeEventListener("keydown", closeEsc);
+      });
+    }
+  });
 }
 
-function closeEsc(e) {
-  if (e.code === "Escape") {
-    console.log(e.code);
-    removeListen();
-    modal.close();
-  }
-}
-
-function removeListen() {
-  window.removeEventListener("keydown", closeEsc);
-}
+function closeEsc() {}
 
 // const galleryList = document.querySelector(".gallery");
 // const galleryItemsMarkup = addGalleryItems(galleryItems);
